@@ -2,9 +2,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {View} from "react-native";
 import Main from "./screens/Main";
-import Contacts from "./screens/Contacts";
+import Contacts from "./screens/Account";
 import Profile from './screens/Profile';
-import Counter from './screens/Counter';
+import Counter from './screens/Account';
 import  Fetch  from './screens/Fetch';
 
 const Stack = createNativeStackNavigator();
@@ -14,11 +14,13 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
+          
           name="Main"
           options={{
-            title: 'Главная',
+            title: 'Мой Банк',
             headerStyle: {
               backgroundColor: '#2098a8',
+              
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -31,9 +33,9 @@ export default function App() {
           }
         />
         <Stack.Screen
-          name="Contacts"
+          name="Account"
           options={{
-            title: 'Контакты',
+            title: 'Счета',
             headerStyle: {
               backgroundColor: '#a83020',
             },
@@ -82,11 +84,11 @@ export default function App() {
           }
         />
         <Stack.Screen
-          name="GetPost"
+          name="Fetch"
           options={{
-            title: 'Fetch',
+            title: 'Помощь',
             headerStyle: {
-              backgroundColor: '#2098a8',
+              backgroundColor: 'green',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
