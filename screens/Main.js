@@ -14,7 +14,7 @@ const Main = ({ navigation }) => {
         </View>
       {/* <Text style={{flexBasis:100}}>Главная страница</Text> */}
       
-      <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent:'space-around'}}>
+      <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent:'space-around', backgroundColor:'#9e9e9e'}}>
         <Button style={{flexBasis:100}} title="Счет в банке" onPress={() => {
           navigation.navigate("Account", "")
         }} />
