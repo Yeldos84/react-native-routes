@@ -6,11 +6,18 @@ import Contacts from "./screens/Account";
 import Profile from './screens/Profile';
 import Counter from './screens/Account';
 import  Fetch  from './screens/Fetch';
+import ApiPage from './screens/Apiscreen';
+import Tests from './screens/TestScreen';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import TestDetails from './screens/TestDetails';
 
+
+const queryClient = new QueryClient();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
+  <QueryClientProvider client={queryClient}>
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
@@ -100,7 +107,59 @@ export default function App() {
           </View>
           }
         />
+        <Stack.Screen
+          name="Api"
+          options={{
+            title: 'Api',
+            headerStyle: {
+              backgroundColor: 'green',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+            fontWeight: 'bold',
+            },
+          }}
+          component={(props)=><View>
+            <ApiPage {...props}/>
+          </View>
+          }
+        />
+        <Stack.Screen
+          name="Tests"
+          options={{
+            title: 'Tests',
+            headerStyle: {
+              backgroundColor: 'green',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+            fontWeight: 'bold',
+            },
+          }}
+          component={(props)=><View>
+            <Tests {...props}/>
+          </View>
+          }
+        />
+        <Stack.Screen
+          name="TestDetails"
+          options={{
+            title: 'TestDetails',
+            headerStyle: {
+              backgroundColor: 'green',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+            fontWeight: 'bold',
+            },
+          }}
+          component={(props)=><View>
+            <TestDetails {...props}/>
+          </View>
+          }
+        />
       </Stack.Navigator>
     </NavigationContainer>
+  </QueryClientProvider>
   );
 }

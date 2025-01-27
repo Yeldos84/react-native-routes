@@ -3,6 +3,7 @@ import { StyleSheet, Button, View, Text, Image } from "react-native";
 import img from "../assets/favicon.png"
 
 const Main = ({ navigation }) => {
+
   return (
     <View>
       <View style={{ flexBasis: "100px", backgroundColor: '#9e9e9e', alignItems: "center", justifyContent:'center' }}> 
@@ -10,7 +11,7 @@ const Main = ({ navigation }) => {
         style={styles.image}
         source={img}
         />
-        <Text>Добро пожаловать в "Мой Банк"!</Text> 
+        <Text>Добро пожаловать в "Мой Банк"!</Text>
         </View>
       {/* <Text style={{flexBasis:100}}>Главная страница</Text> */}
       
@@ -33,6 +34,18 @@ const Main = ({ navigation }) => {
         }} /> */}
         <Button color="green" title="Помощь" onPress={() => {
           navigation.navigate("Fetch", ""
+          )
+        }} />
+         <Button color="green" title="Api" onPress={() => {
+          navigation.navigate("Api", ""
+          )
+        }} />
+        <Button color="green" title="Tests" onPress={() => {
+          navigation.navigate("Tests", ""
+          )
+        }} />
+         <Button color="green" title="TestDetails" onPress={() => {
+          navigation.navigate("TestDetails", ""
           )
         }} />
       </View>
