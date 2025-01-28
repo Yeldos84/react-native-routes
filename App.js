@@ -10,13 +10,16 @@ import ApiPage from './screens/Apiscreen';
 import Tests from './screens/TestScreen';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import TestDetails from './screens/TestDetails';
-
+import Auth from './screens/Auth';
+import { AuthProvider } from './screens/AuthContext';
+import Register from './screens/Register';
 
 const queryClient = new QueryClient();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
+    <AuthProvider>
   <QueryClientProvider client={queryClient}>
     <NavigationContainer>
       <Stack.Navigator>
@@ -24,9 +27,9 @@ export default function App() {
           
           name="Main"
           options={{
-            title: 'Мой Банк',
+            title: 'Testter.kz',
             headerStyle: {
-              backgroundColor: '#2098a8',
+              backgroundColor: '#753ef9',
               
             },
             headerTintColor: '#fff',
@@ -40,9 +43,9 @@ export default function App() {
           }
         />
         <Stack.Screen
-          name="Account"
+          name="Register"
           options={{
-            title: 'Счета',
+            title: 'Регистрация',
             headerStyle: {
               backgroundColor: '#a83020',
             },
@@ -52,7 +55,24 @@ export default function App() {
             },
           }}
           component={(props)=><View>
-            <Contacts {...props}/>
+            <Register {...props}/>
+          </View>
+          }
+        />
+        <Stack.Screen
+          name="Auth"
+          options={{
+            title: 'Вход',
+            headerStyle: {
+              backgroundColor: '#a83020',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+          component={(props)=><View>
+            <Auth {...props}/>
           </View>
           }
         />
@@ -161,5 +181,6 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
   </QueryClientProvider>
+  </AuthProvider>
   );
 }

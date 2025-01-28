@@ -1,36 +1,12 @@
 import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { fetchUsers } from '../components/Api';
-import { Flex, Input, Button, Carousel  } from "antd";
-import { UserOutlined } from '@ant-design/icons';
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
-import { BackButton } from '../components/BackButton';
-import AppHeader from '../components/Header';
-import { useAuth } from '../components/AuthContext';
-
-const contentStyle = {
-    height: '160px',
-    color: '#fff',
-    lineHeight: '160px',
-    textAlign: 'center',
-    background: '#364d79',
-  };
-
-export const ButtonStyle = {
-    marginTop: "10px",
-    borderRadius: '10px',
-    color: 'white',
-    transition: ".2s linear",
-    background: "#0B63F6",
-  };
-
+import { useAuth } from './AuthContext'
+import { Icon } from 'react-native-elements';
 
 const Auth = () => {
-    const navigate = useNavigate();
-        const handleNavigationHome = (path) => {
-            navigate(path);
-        };
-    
+    const navigation = useNavigation();
     const { login } = useAuth();
 
     const [formData, setFormData] = useState({
@@ -40,13 +16,11 @@ const Auth = () => {
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
+    const handleChange = (name, value) => {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
         setError('');
         setSuccessMessage('');
 
@@ -58,10 +32,11 @@ const Auth = () => {
             );
 
             if (user) {
-                localStorage.setItem('user', JSON.stringify(user));
+                // Use AsyncStorage or another method to store user data
+                // AsyncStorage.setItem('user', JSON.stringify(user));
                 setSuccessMessage('Вы успешно вошли!');
                 login();
-                handleNavigationHome('/profile');
+                navigation.navigate('Profile', {user});
             } else {
                 setError('Неверное имя пользователя или пароль.');
             }
@@ -71,62 +46,76 @@ const Auth = () => {
     };
 
     return (
-        <>
-            <AppHeader/>
-            <Flex align="center" justify="center" gap={200}>
-            
-
-                <div>
-                    <h1>Авторизация</h1>
-                    <form onSubmit={handleSubmit}>
-                        <div>
-                            <label>Имя пользователя</label>
-                            <Input
-                                placeholder="Имя пользователя"
-                                prefix={<UserOutlined />}
-                                type="text"
-                                name="username"
-                                value={formData.username}
-                                onChange={handleChange}
-                                required
-                            />
-                            <label>Пароль</label>
-                            <Input.Password
-                                placeholder="пароль"
-                                iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-                                type="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
-                        <button style={ButtonStyle} type="submit">Войти</button>
-                    </form>
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
-                    {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-                </div>
-
-                <div style={{width:'500px'}}>
-                    <Carousel autoplay
-                        autoplaySpeed = {2000}
-                        dotPosition="left"
-                    >
-                        <div>
-                            <h3 style={contentStyle}> Обязательная экспертиза</h3>
-                        </div>
-                        <div>
-                            <h3 style={contentStyle}>Обширная база тестов</h3>
-                        </div>
-                        <div>
-                            <h3 style={contentStyle}>Прогноз поступления</h3>
-                        </div>
-                    </Carousel>
-                </div>
-            </Flex>
-            <BackButton/>
-        </>
+        <View style={styles.container}>
+            <Text style={styles.title}>Авторизация</Text>
+            <Icon name='mood' size={60} />
+            <View>
+                <Text>Имя пользователя</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Имя пользователя"
+                    value={formData.username}
+                    onChangeText={(text) => handleChange('username', text)}
+                />
+                <Text>Пароль</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="пароль"
+                    value={formData.password}
+                    onChangeText={(text) => handleChange('password', text)}
+                    secureTextEntry
+                />
+                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                    <Text style={styles.buttonText}>Войти</Text>
+                </TouchableOpacity>
+                {error && <Text style={styles.error}>{error}</Text>}
+                {successMessage && <Text style={styles.success}>{successMessage}</Text>}
+            </View>
+            <Icon name='arrow-back' size={60} onPress={() => navigation.navigate("Main")}/>
+        </View>
     );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 15,
+    paddingLeft: 10,
+  },
+  button: {
+    backgroundColor: '#0B63F6',
+    padding: 10,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  error: {
+    color: 'red',
+    marginTop: 10,
+    textAlign: 'center',
+  },
+  success: {
+    color: 'green',
+    marginTop: 10,
+    textAlign: 'center',
+  },
+});
 
 export default Auth;
